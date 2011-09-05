@@ -1,0 +1,13 @@
+%div
+%h2= "Choose a language"
+- @langs.each do |lang|
+  - lang_short = lang.first
+  - lang_full = lang.second
+  - if lang_short == @selected_lang
+    - selected = "selected"
+  - else
+    - selected = ""
+  %ul
+    %li{:class => selected}
+      %a{:href => "/translation/"+lang_short+"/all"}
+        = lang_full

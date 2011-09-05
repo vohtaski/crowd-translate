@@ -1,0 +1,28 @@
+<%= javascript_tag(render :file => "translation/translation.js.erb") %>
+
+<a id="back_button" class="submit_button" href="/translation/<%= @lang %>/all">
+  Back to "Translate <%= @selected_lang_full %>"
+</a>
+
+<h1>Found <%= @translation_rows.size %> items</h1>
+
+<article class="content">
+    <div class="records-header">
+    
+      
+      <div class="status-bar">
+          <%= page_entries_info @translation_rows, :entry_name => 'translation' %>
+      </div>
+    </div>
+
+    <table class="records hide-locations">
+        <tbody>
+            <% @translation_rows.each do |item| %>
+            <%= render :partial => "translation_row", :locals => {:item => item} %>
+            <% end %>
+        </tbody>
+    </table>
+    
+    <%= will_paginate @translation_rows %>
+
+  </article>

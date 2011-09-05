@@ -1,0 +1,248 @@
+function translation_clicked(id) {
+	// enable submit button
+	$('#translation_'+id+' td.actions a.submit').css('display','inline-block') 
+	$('#translation_'+id+' td.actions a.accept').css('display','none') 
+	$('#translation_'+id+' td.actions a.decline').css('display','none') 
+	
+	var edit = $('#translation_'+id+' td.translation div.edit')
+	edit.css('display','none'); 
+	
+	$('#translation_'+id+' td.translation div.field').css('display','block');
+	var textarea = $('#translation_'+id+' td.translation textarea');
+	textarea.growfield();
+  // TODO: remove next line, select should be enough
+  // $('#translation_'+id+' td.translation textarea.growfield').focus();
+	$('#translation_'+id+' td.translation textarea.growfield').select();
+	
+	$('#translation_'+id+' td.translation textarea.growfield').keypress({id: id},function(e) {
+		if(e.keyCode==13){ //Enter
+			e.preventDefault();	
+			var id = e.data.id
+			
+			var updated_at = $('#translation_'+id+' td.translation div.edit').attr('id');
+			
+			$('#translation_'+id+' td.actions a').css('display','none')
+			update_translation_ajax(id,updated_at,"submit")
+			// Enter pressed... send ajax update
+			// jump to the next row
+		}		
+	}); 
+	// fix for chrome, it does not understand keypress for ESC
+	$('#translation_'+id+' td.translation textarea.growfield').keydown({id:id},function(e) {
+		id = e.data.id;
+		if(e.keyCode==27){ //Escape
+			$('#translation_'+id+' td.actions a.submit').css('display','none')
+			$('#translation_'+id+' td.actions a.accept').css('display','inline-block') 
+			$('#translation_'+id+' td.actions a.decline').css('display','inline-block') 
+			
+			
+			var textarea = $('#translation_'+id+' td.translation textarea.growfield');
+			var value = textarea.attr('defaultValue');
+			// remove existing textarea
+    	$('#translation_'+id+' td.translation div.field').html('<textarea style="height: 16px;" class="inline-edit">'+value+'</textarea>');
+
+			$('#translation_'+id+' td.translation div.edit').css('display','block'); 
+			$('#translation_'+id+' td.translation div.field').css('display','none');
+		}
+	});   
+	
+}
+
+function submit_clicked(id) {
+	// get updated_at date
+	var p = $('#translation_'+id+' td.translation div.edit')
+	var updated_at = p.attr('id');
+	
+	update_translation_ajax(id,updated_at,"submit")
+}
+
+function accept_clicked(id) {
+	var p = $('#translation_'+id+' td.translation div.edit')
+	var updated_at = p.attr('id');
+	
+	update_translation_ajax(id,updated_at,"accept")
+}
+
+function decline_clicked(id) {
+	var p = $('#translation_'+id+' td.translation div.edit')
+	var updated_at = p.attr('id');
+	
+	update_translation_ajax(id,updated_at,"decline")
+}
+
+function prepare_submit(id) {
+	var textarea = $('#translation_'+id+' td.translation textarea.growfield');
+	var value = textarea.attr('value')
+	
+	var edit = $('#translation_'+id+' td.translation div.edit')
+	
+	edit.css('display','block'); 
+	$('#translation_'+id+' td.translation div.field').css('display','none');
+	
+	edit.text('Saving...');
+	
+	// remove existing textarea
+	$('#translation_'+id+' td.translation div.field').html('<textarea style="height: 16px;" class="inline-edit">'+value+'</textarea>');
+	
+	// jump to the next translation
+	
+	var next_id = edit.parent().parent().next().attr('id');
+	if (next_id) {
+  	translation_clicked(next_id.match(/\d+$/)[0]); // in case the next element exists	  
+	}
+	
+	return value;
+}
+
+function prepare_accept(id) {
+	var edit = $('#translation_'+id+' td.translation div.edit');
+	var value = edit.html();
+		
+	edit.text('Saving...');
+		
+	return value;
+}
+
+function prepare_decline(id) {
+	var translation = $('#translation_'+id);
+	
+	if (translation.hasClass('reviewed_improvement')) {
+		var value = translation.find('td.translation .improvement_text').text();
+	}else{
+		var value = ""
+	}
+	
+	var edit = $('#translation_'+id+' td.translation div.edit');
+	edit.text('Saving...');
+	
+	return value;
+}
+
+function update_translation_ajax (id,updated_at,type) {
+	var value = "";
+	
+	switch(type){
+		case "submit": 
+			value = prepare_submit(id);
+			break;
+		case "accept": 
+			value = prepare_accept(id);
+			break;
+		case "decline": 
+			value = prepare_decline(id);
+			break;
+	}
+	
+	$.ajax({
+	  url: "/translation/update/"+id,
+	  data: {content: value, updated_at: updated_at},
+	  type: "PUT",
+	  dataType: "JSON",
+	  success: function(data){
+		var edit = $('#translation_'+id+' td.translation div.edit')
+		
+		if(data.exception){
+			// show exception to the user
+			alert(data.exception)
+			
+			if(value != "")
+				edit.html(value);
+			else 
+				edit.html('<i>not translated</i>');
+		    
+		}else{
+			// do things with successful update
+			if(data != ""){
+				rebuild_interface(id,data);
+				if(data.new_content != "")
+					edit.html(data.new_content);
+				else
+					edit.html('<i>not translated</i>')
+			}else{
+				if(value != "")
+					edit.html(value);
+				else 
+					edit.html('<i>not translated</i>');
+				
+			}
+		}
+	  }
+	});
+}
+
+function rebuild_interface (id,data) {
+  
+  var not_search = ($('#translation-stats').length != 0); //for search is set to false
+  
+	// update class for translation
+	var reviewed_improvement = (data.reviewed_improvement) ? "reviewed_improvement" : "";
+	if ($('#translation_'+id).hasClass('reviewed_improvement')) { //was improvement
+	    if (!data.reviewed_improvement) { //but not anymore
+  	    var impr = $('#translation-stats li.improvement a');
+  	    impr.html(impr.html()*1-1)
+  	  };
+	} else {
+	  if (data.reviewed_improvement) { //was not improvement, but improvement now
+	    var impr = $('#translation-stats li.improvement a');
+	    impr.html(impr.html()*1+1)
+	  };
+	}
+	$('#translation_'+id).attr('class',data.status_after+" "+reviewed_improvement)
+	
+	// update updated_at for 
+	$('#translation_'+id+' td.translation div.edit').attr('id',data.updated_at);
+	
+	// update statistics
+	if(data.status_before != data.status_after && not_search){
+		// remove 1 from previous stats
+		g_stats[data.status_before] -= 1
+		var before = $('#translation-stats li.'+data.status_before+' a');
+		before.html(g_stats[data.status_before]);
+
+		// add 1 to current stats
+		g_stats[data.status_after] += 1
+		var after = $('#translation-stats li.'+data.status_after+' a');
+		after.html(g_stats[data.status_after]);		
+	} 
+	
+	// update image
+	$('#translation_'+id+' .spacer').css('background-image',"url('/images/translations/"+data.status_after+".png')")
+	
+	// update improvements for review
+	if(data.reviewed_improvement){
+		$('#translation_'+id+' .reviewed_improvement').css('display','block')
+		$('#translation_'+id+' td.translation .improvement_text').html(data.old_content);
+	}else{
+		$('#translation_'+id+' .reviewed_improvement').css('display','none')		
+	}
+		
+	// update health
+	if (not_search && !data.reviewed_improvement) {rebuild_health();}
+	
+}
+
+function rebuild_health() {
+	var hash = {'needs_review':'Needs review','reviewed':'Reviewed'}
+	var arr = []
+	for(var i in hash){
+		var ratio = Math.round(g_stats[i]*100/g_stats['all']);
+		arr.push(ratio);
+		$('#'+i+"_ratio").attr('title',hash[i]+' - '+ratio+'%')
+		$('#'+i+'_ratio').css('width',ratio+'%')
+	}
+	var ratio = 100-arr[0]-arr[1];
+	$('#untranslated_ratio').attr('title','Untranslated - '+ratio+'%')
+	$('#untranslated_ratio').css('width',ratio+'%')
+	
+}
+
+function toggle_notifications (enabled,lang) {
+	$.ajax({
+	  url: "/translation/toggle_notifications",
+	  data: {enabled: enabled,lang: lang},
+	  type: "PUT",
+	  dataType: "JSON",
+	  success: function(data){
+	  }
+	});	
+}

@@ -1,0 +1,30 @@
+<div id="user_stats">
+  <% submitter = User.find(:first, :conditions => "id = #{@user_id}") %>
+  <h1>Statistics for user  - <%= submitter.name + " (id = #{submitter.id})" %>
+    <br>(only "needs review" and "improvement")
+  </h1>
+  <article class="content">    
+
+
+      <table class="stats">
+          <tbody>
+  <tr>        
+              <th>Language</th>
+              <th>Phrase</th>
+              <th>Status</th>
+              <th>Translation</th>
+  </tr>
+              <% @stats.each do |item| %>
+                <tr>
+                  <td class="<%= item.status %>"><a href="#"><%= item.lang %></a></td>
+                  <td class="<%= item.status %>"><a href="#"><%= item.value %></a></td>
+                  <td class="<%= item.status %>"><a href="#"><%= item.status %></a></td>
+                  <td class="<%= item.status %>"><a href="#"><%= item.content %></a></td>
+                </tr>
+              <% end %>
+          </tbody>
+      </table>
+
+
+  </article>  
+</div>

@@ -1,0 +1,10 @@
+--- 
+en: 
+  words:
+    page_number: "page %{number}"
+    title: Title
+  date:
+    day: Day
+    month: Month
+    week: Week
+    year: Year

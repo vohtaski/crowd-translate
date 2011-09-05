@@ -1,0 +1,112 @@
+<script type="text/javascript" charset="utf-8">
+  function update_right(user_id,right) {
+  	$.ajax({
+  	  url: "/translation/update_user/"+user_id+"/"+right,
+  	  type: "PUT",
+  	  dataType: "JSON",
+  	  success: function(data){
+  	    $(".user_right_"+user_id).html(right)
+  	  }
+  	});	
+  }
+</script>
+<h1>Statistics by languages</h1>
+
+<article class="content">    
+      
+
+    <table class="stats" border="1" cellspacing="0" cellpadding="0">
+        <tbody>
+<tr>            
+            <th>Language</th>
+            <th>Untranslated</th>
+            <th>Needs review</th>
+            <th>Reviewed</th>
+            <th>All</th>
+            <th>Improvement</th>
+</tr>
+            <% @data.each do |item| %>
+              <% lang_short = item.lang %>
+              <% lang_full = @langs_hash[lang_short] %>
+              <tr>
+                <td><a href="/translation/<%= lang_short %>/all"><%= lang_full %></a></td>
+                <td class="untranslated"><a href="/translation/<%= lang_short %>/untranslated"><%= item.untranslated %></a></td>
+                <td class="needs_review"><a href="/translation/<%= lang_short %>/needs_review"><%= item.needs_review %></a></td>
+                <td class="reviewed"><a href="/translation/<%= lang_short %>/reviewed"><%= item.reviewed %></a></td>
+                <td class="all"><a href="/translation/<%= lang_short %>/all"><%= item.all %></a></td>                
+                <td class="improvement"><a href="/translation/<%= lang_short %>/improvement"><%= item.improvement %></a></td>
+              </tr>
+            <% end %>
+        </tbody>
+    </table>
+    
+
+</article>
+
+<h1>Statistics by new users (only "needs review" and "improvement")</h1>
+
+<article class="content">    
+      
+
+    <table class="stats">
+        <tbody>
+<tr>        
+            <th>User id</th>
+            <th>Language</th>
+            <th>Status</th>
+            <th>Number</th>
+</tr>
+            <% @users_needs_review.each do |item| %>
+              <tr>
+                <% submitter = User.find(:first, :conditions => "id = #{item.submitter_id}") %>
+                <td class="<%= item.status %>"><a href="/translation_user/<%= item.submitter_id %>"><%= submitter.name + " (id = #{submitter.id})" %></a></td>
+                <td class="<%= item.status %>"><a href="/translation_user/<%= item.submitter_id %>"><%= item.lang %></a></td>
+                <td class="<%= item.status %>"><a href="/translation_user/<%= item.submitter_id %>"><%= item.status %></a></td>
+                <td class="<%= item.status %>"><a href="/translation_user/<%= item.submitter_id %>"><%= item.number %></a></td>
+              </tr>
+            <% end %>
+        </tbody>
+    </table>
+    
+
+</article>
+
+<h1>General stats by users (only "reviewed" and "needs review")</h1>
+
+<article class="content">    
+      
+
+    <table id="manage_users" class="stats">
+        <tbody>
+<tr>        
+            <th>User</th>
+            <th>Status</th>
+            <th>Number</th>
+            <th>Right</th>
+            <% if current_user.is_translation_admin? %>
+            <th>Actions</th>
+            <% end %>
+</tr>
+            <% @all_submittors.each do |item| %>
+              <% submitter = User.find(:first, :conditions => "id = #{item.submitter_id}") %>
+              <% if submitter %>
+                <tr>
+                  <td class="<%= item.status %>"><a href="/translation_user/<%= item.submitter_id %>"><%= submitter.name + " (id = #{submitter.id})" %></a></td>
+                  <td class="<%= item.status %>"><a href="/translation_user/<%= item.submitter_id %>"><%= item.status %></a></td>
+                  <td class="<%= item.status %>"><a href="/translation_user/<%= item.submitter_id %>"><%= item.number %></a></td>
+                  <td class="user_right_<%= item.submitter_id %> <%= item.status %>"><%= (item.right) ? item.right : "user" %></td>
+                  <% if current_user.is_translation_admin? and item.submitter_id != current_user.id %>
+                  <td class="<%= item.status %>">
+                    <img src="/images/translations/reviewer.png" title='Give reviewer right' onclick="update_right('<%= item.submitter_id %>','reviewer')">
+                    <img src="/images/translations/admin.png" title='Give admin right' onclick="update_right('<%= item.submitter_id %>','admin')">
+                    <img src="/images/translations/blocked.png" title='Block user from translating' onclick="update_right('<%= item.submitter_id %>','blocked')">
+                  </td>
+                  <% end %>
+                </tr>
+              <% end %>
+            <% end %>
+        </tbody>
+    </table>
+    
+
+</article>

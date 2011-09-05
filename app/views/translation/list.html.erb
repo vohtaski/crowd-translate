@@ -1,0 +1,107 @@
+<%= javascript_tag(render :file => "translation/translation.js.erb") %>
+<script>
+var g_stats = {all: <%= @stats.all %>, reviewed: <%= @stats.reviewed %>,needs_review: <%= @stats.needs_review %>,untranslated: <%= @stats.untranslated %>}
+</script>
+
+<h1>Translate to <%= @selected_lang_full %> language</h1>
+<% if current_user != :false %>
+<div id="notifications">
+    <div class="row">
+        <label for="notification" class="notification_title">Notifications</label>
+        <% if @notification.enabled %>
+            <input type="checkbox" name="notification" checked="checked" id="notification">  
+        <% else %>
+            <input type="checkbox" name="notification" value="" id="notification"> 
+        <% end %>
+        <span class="notification_desc">Notify me about new untranslated strings for <%= @selected_lang_full %> language</span>                          
+    </div>
+</div>
+<% end -%>
+
+<article class="content">
+    <div class="records-header">
+<ol class="stats" id="translation-stats">         
+  <li class="untranslated <%= (@filter == 'untranslated') ? 'selected' : '' %>">
+    <dl>
+      <dt>Untranslated</dt>
+      <dd><a href="/translation/<%= @selected_lang %>/untranslated"><%= @stats.untranslated %></a></dd>
+    </dl></li>
+  <li class="needs_review <%= (@filter == 'needs_review') ? 'selected' : '' %>">
+    <dl>
+      <dt>Needs Review</dt>
+      <dd><a href="/translation/<%= @selected_lang %>/needs_review"><%= @stats.needs_review %></a></dd>
+    </dl></li>
+
+  <li class="reviewed <%= (@filter == 'reviewed') ? 'selected' : '' %>">
+    <dl>
+      <dt>Reviewed</dt>
+      <dd><a href="/translation/<%= @selected_lang %>/reviewed"><%= @stats.reviewed %></a>
+      </dd>
+    </dl>
+    </li>
+  <li class="all <%= (@filter == 'all') ? 'selected' : '' %>">
+    <dl>
+      <dt>All</dt>
+      <dd><a href="/translation/<%= @selected_lang %>/all"><%= @stats.all %></a></dd>
+    </dl></li> 
+            
+  <li class="health">
+    <dl>
+      <dt>Health</dt>
+      <dd>
+          <% reviewed_ratio = @stats.reviewed*100/@stats.all %>
+          <% needs_review_ratio = @stats.needs_review*100/@stats.all %>
+          <% untranslated_ratio = 100 - reviewed_ratio - needs_review_ratio %>
+        <div class="progress-container">
+            <div id="reviewed_ratio" style="width: <%= reviewed_ratio %>%;" title="Reviewed - <%= reviewed_ratio %>%" class="progress-bar"></div>
+            <!-- <div style="width: 0%; background-color: rgb(0, 136, 0);" title="Your Changes - 0%" class="progress-bar"></div> -->
+            <div id="needs_review_ratio" style="width: <%= needs_review_ratio %>%; background-color: rgb(204, 204, 0);" title="Needs Review - <%= needs_review_ratio %>%" class="progress-bar"></div>
+            <div id="untranslated_ratio" style="width: <%= untranslated_ratio %>%; background-color: rgb(255, 85, 85);" title="Untranslated - <%= untranslated_ratio %>%" class="progress-bar">
+            </div>
+        </div>
+      </dd>
+    </dl></li>
+    <li class="improvement <%= (@filter == 'improvement') ? 'selected' : '' %>">
+      <dl>
+        <dt>Improvement</dt>
+        <dd><a href="/translation/<%= @selected_lang %>/improvement"><%= @stats.improvement %></a>
+        </dd>
+      </dl>
+      </li>
+    
+</ol>
+      
+      <div class="status-bar" style="color: red; font-size: 10px; margin-bottom:5px">
+        * When you translate, please make sure expressions like '%{english_word}' are left untranslated!
+      </div>
+      
+      <div class="status-bar">
+          <%= page_entries_info @translation_rows, :entry_name => 'translation' %>
+      </div>
+    </div>
+
+    <table class="records hide-locations">
+        <tbody>
+            <% @translation_rows.each do |item| %>
+            <%= render :partial => "translation_row", :locals => {:item => item} %>
+            <% end %>
+        </tbody>
+    </table>
+    
+    <%= will_paginate @translation_rows %>
+
+  </article>
+  
+<script type="text/javascript">
+  $("#notification")
+    // attach the iButton behavior
+    .iButton({
+       labelOn: "Yes",
+       labelOff: "No",
+       change: function ($input){
+        // update the text based on the status of the checkbox
+        var lang = '<%= @selected_lang %>';
+        $input.is(":checked") ? toggle_notifications(true,lang) : toggle_notifications(false,lang);
+      }
+    })
+</script>

@@ -1,0 +1,16 @@
+#logo_right
+  -if current_user == :false
+    %a{:href => "/login", :class => "menu "}
+      .top_border    
+      .menu_el
+        %span{:class => "menu_text"}=  "Sign in"
+
+
+  -else
+    %a{:href => "/logout", :class => "menu "}
+      .top_border    
+      .menu_el
+        %span{:class => "menu_text"}=  "Sign out" 
+    
+    #menu_user_name
+      %span{:class => "menu_text"}= current_user.name

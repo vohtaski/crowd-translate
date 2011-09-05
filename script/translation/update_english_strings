@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+# Goes through the english translations TranslateTranslation
+# finds related string in TranslateString 
+# replaces string.value with reviewed translation from TranslateTranslation
+
+RAILS_HOME = File.expand_path(File.join(File.dirname(__FILE__)+"/../.."))
+ENV['RAILS_ENV'] = case ARGV.first
+  when "p"; "production"
+  when "d"; "development"
+  when "t"; "test"
+  else
+    ARGV.first || ENV['RAILS_ENV'] || 'development'
+end
+
+require RAILS_HOME + '/config/boot.rb'
+require RAILS_HOME + '/config/environment'
+require RAILS_HOME + '/libhelp/translation'
+
+Translation::UpdateEnglishStrings.run

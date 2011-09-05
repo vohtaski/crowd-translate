@@ -1,0 +1,50 @@
+<!-- item as parameter -->
+<% votes =  eval(item.votes.to_s) %>
+<% votes = (votes != nil) ? votes.size : "" %>
+<% reviewed_improvement = (item.improvement) ? "reviewed_improvement" : "" %>
+<tr class="<%= item.status %>  user-approves <%= reviewed_improvement %>" id="translation_<%= item.id %>">
+  <th class="key">
+    <p><%= item.term %></p>
+    
+  </th>
+  <td class="spacer">
+    
+      <span title="<%= votes %> people have reviewed this translation" class="review-count"><%= votes %></span>
+      <% if item.status == 'reviewed' %>
+        <% display_reviewed_improvement = (!item.improvement) ? "display:none" : "" %> 
+        <span title="An improvement was proposed for this reviewed translation" class="reviewed_improvement" style="<%= display_reviewed_improvement %>">m</span>
+      <% end %>
+  </td>
+  <% if current_user == :false %>
+    <td class="translation">
+        <a href="/login_page" class="edit">      
+            <%= (item.translation.to_s != "") ? item.translation : "<i>not translated</i>" %>
+        </a>
+    </td>
+  <% else %>
+    <td class="translation">
+        <% item_translation = (item.improvement) ? item.improvement.content : item.translation  %>
+        <% item_translation = item_translation.strip %>
+        <% item_improvement = item.translation.strip %>
+      <div class="edit" id='<%= item.updated_at.to_s(:db) %>' title="Click to edit. Enter - confirm change, ESC - cancel change." onclick="translation_clicked('<%= item.id %>')">      
+        <%= (item_translation.to_s != "") ? item_translation : "<i>not translated</i>" %>
+      </div>
+      <div style="display: none;" class="field">
+        <textarea style="height: 16px;" class="inline-edit"><%= item_translation %></textarea>
+      </div>
+      <div class="improvement">
+        <span>Current stable: </span><span class="improvement_text"><%= item_improvement %></span>
+      </div>
+    </td> 
+    <td class="actions">
+          <a title="Submit this translation" class="ajax submit" onclick="submit_clicked('<%= item.id %>'); return false;">Submit this translation</a>
+          <% if current_user.is_translation_reviewer? %>
+              <a title="Accept this translation" class="ajax accept" onclick="accept_clicked('<%= item.id %>'); return false;">Accept this translation</a>
+              <!-- <a title="Change this translation" class="ajax change" onclick="change_clicked('<%= item.id %>'); return false;">Change this translation</a> -->
+              <a title="Decline this translation" class="ajax decline" onclick="decline_clicked('<%= item.id %>'); return false;">Decline this translation</a>
+          <% end %>
+    </td>
+  <% end %>
+  
+  
+</tr>

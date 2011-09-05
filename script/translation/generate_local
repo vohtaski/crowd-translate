@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+# generates en.yml and langs/en.js and locales/en.js files from lang_server.yml
+
+RAILS_HOME = File.expand_path(File.join(File.dirname(__FILE__)+"/../.."))
+require RAILS_HOME + '/libhelp/translation'
+
+# Deprecated in Ruby 1.9
+require 'ftools'
+
+# copy lang_server.yml to en.yml
+# For server it is taken from db
+File.copy("#{RAILS_HOME}/config/locales/templates/lang_server.yml",
+    "#{RAILS_HOME}/config/locales/en.yml")
+
+# Generate js files for node and client
+langs = [["en","English"]]
+Translation::GenerateJs.run(langs)

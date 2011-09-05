@@ -1,0 +1,63 @@
+#!/usr/bin/env ruby
+
+# deprecated: to be removed once translation service is stable
+# takes files with ru,en,fr from config/locales/langs/*.yml and adds already translated lines to database with updates of statistics
+
+RAILS_HOME = File.expand_path(File.join(File.dirname(__FILE__)+"/../.."))
+ENV['RAILS_ENV'] = case ARGV.first
+  when "p"; "production"
+  when "d"; "development"
+  when "t"; "test"
+  else
+    ARGV.first || ENV['RAILS_ENV'] || 'development'
+end
+
+require RAILS_HOME + '/config/boot.rb'
+require RAILS_HOME + '/config/environment'
+
+require 'yaml'
+
+class TranslationScript
+  def self.add_translation_lines(lang,prefix,suffix,translation)
+    t_s = TranslateString.find(:first, :conditions => "prefix = '#{prefix}' and suffix = '#{suffix}'")
+    
+    t = TranslateTranslation.find(:first, 
+        :conditions => "string_id = #{t_s.id} and lang = '#{lang}'")
+    
+    t.status = 'reviewed'
+    t.submitter_id = 4
+    t.content = translation
+    t.save
+    
+    TranslateStatistic.increment(lang,"reviewed")
+    TranslateStatistic.decrement(lang,"untranslated")
+  end
+
+
+end
+
+# No more need to to it for english, it is done automatically in update_db
+# ['ru','en','fr'].each do |lang|
+['ru','fr'].each do |lang|
+  # get data from en.yml file
+  file = File.expand_path("#{RAILS_HOME}/config/locales/initial_translations/#{lang}_all.yml")
+  strings = File.exist?(file) ? YAML.load_file(file)[lang] : {}
+
+  # go through all strings and add new (those that are not db yet)
+  # YAML.load_file(file)
+  # {"en"=>{
+  #     "words"=>{"english"=>"English", "russian"=>"Russian"}, 
+  #     "date"=>{"january"=>"January", "february"=>"February"}}}
+
+  strings.each_pair do |prefix, lines|
+    # prefix = "words", lines = {"english"=>"English", "russian"=>"Russian"}
+    lines.each_pair do |suffix, translation|
+      # suffix = "english"
+      # add lines to Translation table for every language
+      TranslationScript.add_translation_lines(lang,prefix,suffix,translation)
+    end
+  end
+end
+
+# API key
+# https://www.googleapis.com/language/translate/v2?key=AIzaSyCR2x1Tr7Llem6QfzfE3XZxwUxM_rqW-GE&q=flowers&source=en&target=fr&callback=handleResponse

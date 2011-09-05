@@ -1,0 +1,37 @@
+!!! Strict
+%html{:xmlns=>"http://www.w3.org/1999/xhtml"}
+  %head
+    %meta{"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"}/
+    %title= "Yoursite | Translation"
+    %link{:rel => "icon", :href => "/favicon.ico"}/
+    %link{:rel => "shortcut icon", :href => "/favicon.ico"}/
+    
+    = stylesheet_link_tag("translation/logo_area","translation/help","translation/common","translation/footer","translation/translation","translation/translation_external","translation/jquery.ibutton", :cache => "cache/translation_all")
+  
+    = javascript_include_tag('libs_jquery/jquery.min.js')
+    = javascript_include_tag("libs_jquery/jquery.growfield","libs_jquery/jquery.ibutton", :cache => "cache/translation_all")
+    
+  %body
+    = render :partial => "translation/logo_area" # "translation/translation_logo_area"
+    #title
+    #main
+      #container
+        .title
+          %h1
+            %a{:href => "/translation"}= "Yoursite | Translation"
+          - if params[:action] == "list" or params[:action] == "search"
+            = render :partial => "translation/search", :locals => {:lang => @selected_lang, :full_lang => @selected_lang_full}
+        
+        %table.no_border
+        
+          %td#left_area
+            %a#stats_area.submit_button{:href => "/translation/stats"}
+              = "View stats"
+            = render(:partial => "translation/menu")
+
+            -# main render display
+            %td#right_area= yield
+
+      #footer
+        = render :partial => "translation/footer"
+  

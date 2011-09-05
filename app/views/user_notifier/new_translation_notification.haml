@@ -1,0 +1,20 @@
+/ params :item => item, :user => user, :comment => comment
+/ Evgeny has posted a new comment for "My training"
+/ "comment"
+
+= "Dear "+@user.name+","
+%br
+%br
+= @number.to_s+" untranslated strings were added for "+@lang+" language set"
+%br
+%br
+= "Please help us to translate them into "+@lang+" language here:"
+%a{:href => "http://yoursite/translation/"+@lang_short.to_s.downcase+"/untranslated"}
+  = "http://yoursite/translation/"+@lang_short.to_s.downcase+"/untranslated"
+  
+%br
+%br
+%br
+= "Best wishes!"
+%br
+= "Yoursite team"

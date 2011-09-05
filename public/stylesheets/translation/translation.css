@@ -1,0 +1,99 @@
+#container table.no_border {
+  position: relative; }
+
+#right_area {
+  position: relative;
+  border-left: 3px solid #E3E9FF;
+  float: left;
+  top: 0px;
+  left: 0px;
+  margin-left: 0px;
+  right: 30px;
+  bottom: 35px;
+  min-width: 784px;
+  min-height: 1140px; }
+  #right_area p {
+    padding: 5px;
+    line-height: 16px; }
+  #right_area .pagination {
+    margin-top: 10px;
+    text-align: center;
+    margin-right: 10px;
+    font-size: 12px; }
+  #right_area h1 {
+    color: #3F7ABE;
+    margin-top: 15px; }
+
+#left_area {
+  top: 10px; }
+
+#footer {
+  float: left; }
+
+#main {
+  min-width: 982px; }
+
+#notifications {
+  position: absolute;
+  right: 0px;
+  top: 5px;
+  width: 185px; }
+  #notifications .notification_title {
+    color: #3F7ABE;
+    font-weight: bold;
+    float: left;
+    position: relative;
+    top: 5px;
+    margin-right: 5px; }
+  #notifications .notification_desc {
+    color: #888888;
+    font-size: 11px; }
+
+#translation-stats {
+  padding: 0px; }
+
+#stats_area {
+  width: 80px;
+  position: relative;
+  left: 20px;
+  top: 5px;
+  font-size: 18px;
+  text-align: center;
+  line-height: 30px;
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  margin: 10px; }
+
+#container .content .stats th, #container .content .stats tr, #container .content .stats td {
+  border: 1px solid #BBB; }
+
+#user_stats, #translation_main {
+  width: 760px; }
+  #user_stats a, #translation_main a {
+    text-decoration: none;
+    cursor: default; }
+
+#manage_users img {
+  cursor: pointer; }
+
+#search {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  width: 300px;
+  color: #36C; }
+  #search #search_input {
+    width: 250px; }
+
+#back_button {
+  left: 0px;
+  position: relative; }
+
+#title {
+  min-width: 982px; }
+  #title h1 {
+    text-align: center; }
+
+#left_area h2 {
+  margin-top: 20px; }

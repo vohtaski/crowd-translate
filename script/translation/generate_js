@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+# Generates js language files from yml based on locales/data/lang_client.yml
+# lang_client.yml file is used as a template. only those sentences that are
+# in this file will be added to (ru,en,...).js
+
+RAILS_HOME = File.expand_path(File.join(File.dirname(__FILE__)+"/../.."))
+require RAILS_HOME + '/libhelp/translation'
+
+langs = Translation::Language.get_website_languages
+Translation::GenerateJs.run(langs)

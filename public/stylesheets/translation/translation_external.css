@@ -1,0 +1,364 @@
+table, th, td {
+margin: 0;
+padding: 0;
+border: 0;
+outline: 0;
+font-size: 100%;
+vertical-align: baseline;
+background: transparent;
+}
+
+.stats dd {
+	margin: 0px;
+	padding: 0px;
+	
+}
+
+.stats dd a {
+    background-color: #EEEEEE;
+    border: 1px solid #CCCCCC;
+    color: #999999;
+    display: block;
+    font-size: 24px;
+    height: 38px;
+    line-height: 38px;
+    padding: 0 15px;
+    text-align: center;
+    text-decoration: none;
+    width: 60px;
+}
+
+.stats dt {
+    color: #AAAAAA;
+    font-size: 10px;
+    padding-left: 2px;
+    text-transform: uppercase;
+	line-height: 19px;
+}
+
+.stats .selected dt {
+ 	font-weight: bold;
+}
+
+.stats .untranslated dt, .stats td.untranslated a, span.untranslated {
+    color: #FF5555;
+}
+
+.body dl {
+    margin-bottom: 1em;
+}
+
+.stats li {
+    float: left;
+    list-style: none outside none;
+    margin-right: 10px;
+    margin-bottom: 0.5em;
+}
+
+.stats .needs_review dt, .stats td.needs_review a, span.needs_review {
+    color: #AAAA00;
+}
+
+.stats .reviewed dt, .stats td.reviewed a, span.reviewed {
+    color: #44AA44;
+}
+.stats .improvement dt, .stats td.improvement a, span.improvement {
+    color: blue;
+}
+
+.stats .selected.all dt {
+    color: #888888;
+}
+
+.stats .all.selected dd a {
+    background-color: #666666;
+    border: 1px solid #999900;
+}
+
+.stats .all dd a:hover {
+    background-color: #666666;
+    border: 1px solid #999900;
+}
+
+.stats dd a:hover, .stats .selected dd a {
+    background-color: #0087CC;
+    border: 1px solid #3F7ABE;
+    color: #FFFFFF !important;
+}
+
+div.progress-container {
+    float: left;
+    overflow: hidden;
+    width: 150px;
+}
+
+div.progress-container .progress-bar {
+    background-color: #44AA44;
+    float: left;
+    height: 40px;
+}
+
+.stats .reviewed dd a:hover, .stats .reviewed.selected dd a {
+    background-color: #44AA44;
+    border: 1px solid #44AA44;
+}
+.stats dd a:hover, .stats .selected dd a {
+    background-color: #0087CC;
+    border: 1px solid #3F7ABE;
+    color: #FFFFFF !important;
+}
+.stats .selected dd a {
+    border: 1px solid #3F7ABE;
+    color: #FFFFFF !important;
+}
+.stats .untranslated dd a:hover, .stats .untranslated.selected dd a {
+border: solid 1px #FCC;
+background-color: #F55;
+}
+.stats dd a:hover, .stats .selected dd a {
+border: solid 1px #3F7ABE;
+background-color: #0087CC;
+color: white !important;
+}
+.stats .needs_review dd a:hover, .stats .needs_review.selected dd a {
+border: solid 1px #AA0;
+background-color: #CC0;
+}
+.stats .reviewed dd a:hover, .stats .reviewed.selected dd a {
+border: solid 1px #4A4;
+background-color: #4A4;
+}
+.stats .improvement dd a:hover, .stats .improvement.selected dd a {
+border: solid 1px blue;
+background-color: blue;
+}
+.stats dd a:hover, .stats .selected dd a {
+border: solid 1px #3F7ABE;
+background-color: #0087CC;
+color: white !important;
+}
+.content {
+color: #5C5F66;
+width: 100%;
+}
+
+.records-header .status-bar {
+clear: left;
+color: #888;
+font-size: 11px;
+}
+.records-header {
+  padding-top: 10px;
+}
+table.records {
+font-size: 12px;
+color: #333;
+width: 100%;
+border-top: solid 1px #CCC;
+margin-top: 5px;
+}
+
+table.records th, table.records td {
+	padding: 5px;
+	border-bottom: dotted 1px #CCC;
+	background-color: transparent;
+}
+table.records th.key {
+text-align: right;
+width: 250px;
+font-size: 12px;
+font-weight: normal;
+color: #666;
+vertical-align: middle;
+}
+table.records tr.reviewed td.spacer {
+opacity: 0.7;
+}
+table.records td.spacer {
+width: 24px;
+vertical-align: middle;
+opacity: 0.5;
+padding: 0;
+}
+table.records td.actions {
+vertical-align: middle;
+width: 32px;
+padding: 0;
+}
+table.records th.key {
+text-align: right;
+width: 250px;
+font-size: 12px;
+font-weight: normal;
+color: #666;
+vertical-align: middle;
+}
+table.records td.translation {
+text-align: left;
+width: 250px;
+font-size: 12px;
+font-weight: normal;
+color: #666;
+vertical-align: middle;
+}
+.records-footer {
+	padding: 5px 10px;
+	text-align: right;
+	font-size: 12px;
+	color: #888;
+}
+table.records tr.reviewed td.spacer {
+    background: url("/images/translations/reviewed.png") no-repeat scroll 50% 50% transparent;
+    opacity: 0.7;
+}
+table.records tr.needs_review td.spacer {
+    background: url("/images/translations/needs_review.png") no-repeat scroll 50% 50% transparent;
+    opacity: 0.7;
+}
+table.records tr.untranslated td.spacer {
+    background: url("/images/translations/untranslated.png") no-repeat scroll 50% 50% transparent;
+    opacity: 0.7;
+}
+table.records a.approve {
+}
+table.records td.actions a {
+	cursor: pointer;
+	width: 16px;
+	height: 16px;
+	text-indent: -4000px;
+}
+table.records td.actions a {
+	display: none;
+}
+table.records td.actions a.submit {
+	display: none;
+	background: url("/images/translations/checkmark.png") no-repeat scroll 50% 50% transparent;
+}
+.reviewed_improvement td.actions a.accept, .needs_review td.actions a.accept {
+	display: inline-block;
+	background: url("/images/translations/accept.png") no-repeat scroll 50% 50% transparent;
+}
+table.records td.actions a.change {
+	display: none;
+	background: url("/images/translations/change.png") no-repeat scroll 50% 50% transparent;
+}
+.reviewed_improvement td.actions a.decline, .needs_review td.actions a.decline {
+	display: inline-block;
+	background: url("/images/translations/decline.png") no-repeat scroll 50% 50% transparent;
+}
+
+table.records tr:hover > td.actions a.change {
+	display: inline-block;
+}
+table.records tr.needs_review:hover > td.actions a.accept, table.records tr.reviewed_improvement:hover > td.actions a.accept {
+	display: inline-block;
+}
+table.records tr.needs_review:hover > td.actions a.decline, table.records tr.reviewed_improvement:hover > td.actions a.decline {
+	display: inline-block;
+}
+td.translation .improvement {
+	display: none;
+}
+td.translation .improvement_text {
+	background-color: #FFAAAA;
+	color: #AA6666;
+	text-decoration: line-through;
+}
+
+.reviewed_improvement td.translation .improvement {
+	display: block;
+}
+table.records td.translation a {
+	text-decoration: none;
+}
+table.records td.translation .edit {
+	color: #333;
+	display: block;
+	padding: 5px 7px;
+	border: 1px solid transparent;
+}
+table.records td.translation .edit:hover {
+	padding: 5px 7px;
+	border: 1px solid #A0A6B3;
+	border-radius: 3px;
+	cursor: text;
+	background-color: #FFD;
+	border-top-left-radius: 3px 3px;
+	border-top-right-radius: 3px 3px;
+	border-bottom-right-radius: 3px 3px;
+	border-bottom-left-radius: 3px 3px;
+}
+table.records td.translation .field {
+	padding: 4px 5px 3px 5px;
+	margin-bottom: 0;
+	height: auto;
+}
+.field, .field-group {
+	background: white;
+	border: 1px solid #A0A6B3;
+	border-radius: 3px;
+	color: #717B80;
+	font-size: 18px;
+	font-weight: 300;
+	height: 20px;
+	line-height: 1em;
+	margin-bottom: 10px;
+	padding: 9px;
+	position: relative;
+	-moz-transition: all 0.3s ease 0s;
+	-webkit-transition: all 0.3s ease 0s;
+	transition: all 0.3s ease 0s;
+	border-top-left-radius: 3px 3px;
+	border-top-right-radius: 3px 3px;
+	border-bottom-right-radius: 3px 3px;
+	border-bottom-left-radius: 3px 3px;
+}
+table.records td.translation textarea {
+	width: 100%;
+	margin: 0;
+	display: block;
+	font-size: 12px;
+	font-family: arial;
+	overflow: hidden;
+	line-height: 1.4em;
+}
+.field input, .field-select select, .field textarea {
+	-webkit-appearance: none;
+	background: none;
+	border: none;
+	color: black;
+	display: block;
+	font-size: 18px;
+	font-weight: 300;
+	line-height: 1em;
+	margin: 0;
+	outline: none;
+	padding: 0;
+	position: relative;
+	width: 100%;
+	z-index: 200;
+}
+table.records td.spacer .review-count {
+	color: white;
+	float: left;
+	background-color: #040;
+	display: block;
+	font-weight: bold;
+	margin-top: 10px;
+	font-size: 10px;
+	line-height: 12px;
+	border-radius: 5px;
+	padding: 0 3px;
+}
+table.records td.spacer .reviewed_improvement {
+	color: white;
+	width: 8px;
+	background-color: blue;
+	display: block;
+	font-weight: bold;
+	margin-top: 10px;
+	font-size: 10px;
+	line-height: 12px;
+	border-radius: 5px;
+	padding: 0 3px;
+}

@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+# takes file from config/locales/lang_server.yml and adds new lines to database
+# both TranslateStrings and TranslateTranslations
+# it also updates TranslateStatistics table with untranslated lines for all languages
+# for main English language it adds translations as reviewed to TranslateTranslations and
+# updates TranslateStatistics with reviewed
+
+RAILS_HOME = File.expand_path(File.join(File.dirname(__FILE__)+"/../.."))
+ENV['RAILS_ENV'] = case ARGV.first
+  when "p"; "production"
+  when "d"; "development"
+  when "t"; "test"
+  else
+    ARGV.first || ENV['RAILS_ENV'] || 'development'
+end
+
+require RAILS_HOME + '/config/boot.rb'
+require RAILS_HOME + '/config/environment'
+require RAILS_HOME + '/libhelp/translation'
+
+Translation::UpdateDb.run

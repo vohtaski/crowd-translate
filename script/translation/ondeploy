@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+# processes all translation stuff that has to be done with every deploy
+
+RAILS_HOME = File.expand_path(File.join(File.dirname(__FILE__)+"/../.."))
+ENV['RAILS_ENV'] = case ARGV.first
+  when "p"; "production"
+  when "d"; "development"
+  when "t"; "test"
+  else
+    ARGV.first || ENV['RAILS_ENV'] || 'development'
+end
+
+require RAILS_HOME + '/config/boot.rb'
+require RAILS_HOME + '/config/environment'
+require RAILS_HOME + '/libhelp/translation'
+
+# generate language files {en,ru,..}.yml, {en,ru,..}.js
+
+# 1. update db with new languages
+puts "Update db with new languages"
+Translation::UpdateDb.run
+# 2. update corrected english strings in TranslateString
+puts "Update corrected english strings"
+Translation::UpdateEnglishStrings.run
+# 3. create yml files
+puts "Create yml language files"
+Translation::GenerateYml.run
+# 4. create js files
+puts "Create js language files"
+langs = Translation::Language.get_website_languages
+Translation::GenerateJs.run(langs)

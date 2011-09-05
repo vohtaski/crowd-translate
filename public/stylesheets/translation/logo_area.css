@@ -1,0 +1,184 @@
+#logo_area {
+  font-size: 13px;
+  left: 0px;
+  position: absolute;
+  border-top: 2px solid #BAD3EA;
+  border-bottom: 1px solid #ddd;
+  top: 0px;
+  width: 100%;
+  z-index: 100;
+  height: 28px;
+  font-family: Helvetica Neue, Arial, Helvetica, sans-serif;
+  background: -moz-linear-gradient(center top, #fff 0%, #fdfdfd 60%, #f5f5f5 100%);
+  background: -webkit-gradient(linear, left top, left bottom, from(#fff),to(#f5f5f5),color-stop(0.6,#fdfdfd)); }
+
+#menu_user_name {
+  color: #363636;
+  text-decoration: none;
+  top: 9px;
+  position: relative;
+  float: right;
+  padding-right: 5px; }
+
+#logo_left a {
+  float: left; }
+
+#logo_right a {
+  float: right; }
+
+#logo_left a, #logo_right a {
+  color: #36C;
+  text-decoration: none;
+  height: 28px;
+  top: 2px;
+  position: relative; }
+  #logo_left a .top_border, #logo_right a .top_border {
+    height: 3px;
+    position: relative;
+    top: -2px;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent; }
+  #logo_left a .menu_el, #logo_right a .menu_el {
+    padding: 0px 5px;
+    position: relative;
+    top: 3px; }
+#logo_left a:hover, #logo_right a:hover {
+  background: -moz-linear-gradient(center top , #e4ebf8 0% ,#e3eaf7 60%,#dee4f1 100%) repeat scroll 0 0 transparent;
+  background: -webkit-gradient(linear, left top, left bottom, from(#e4ebf8),to(#dee4f1),color-stop(0.6,#e3eaf7)); }
+#logo_left a.active, #logo_right a.active {
+  color: #363636;
+  font-weight: bold; }
+  #logo_left a.active .top_border, #logo_right a.active .top_border {
+    background-color: #1A54E1;
+    border-left: 1px solid white;
+    border-right: 1px solid white; }
+
+#logo_image {
+  float: left;
+  position: relative;
+  text-decoration: none;
+  height: 24px;
+  top: -2px; }
+  #logo_image .menu_el_image {
+    top: -1px;
+    padding: 0px 5px;
+    position: relative; }
+  #logo_image img {
+    border-style: none; }
+  #logo_image #logo_text {
+    top: -6px;
+    left: -3px;
+    position: relative;
+    color: #417CC7;
+    font-size: 18px;
+    font-weight: bold; }
+
+a#logo_image.active {
+  color: #363636; }
+
+a#logo_image:hover {
+  background: -moz-linear-gradient(center top , #e4ebf8 0% ,#e3eaf7 60%,#dee4f1 100%) repeat scroll 0 0 transparent;
+  background: -webkit-gradient(linear, left top, left bottom, from(#e4ebf8),to(#dee4f1),color-stop(0.6,#e3eaf7)); }
+
+#logo_left, #logo_right {
+  top: -2px;
+  left: 0px;
+  position: absolute;
+  height: 30px; }
+
+#logo_right {
+  float: right;
+  position: relative; }
+  #logo_right img {
+    border-style: none; }
+  #logo_right input {
+    font-color: #333333;
+    margin: 3px; }
+  #logo_right #logo_image {
+    padding: 5px; }
+    #logo_right #logo_image a {
+      text-decoration: none;
+      text-color: #f98116;
+      cursor: pointer; }
+  #logo_right #login, #logo_right #logout {
+    float: right;
+    position: relative;
+    top: 4px; }
+  #logo_right #logo_remember {
+    float: left; }
+  #logo_right #language {
+    float: right;
+    position: relative;
+    top: 3px;
+    margin: 0px; }
+
+#open_id #openid_button {
+  position: absolute;
+  margin: 5px; }
+  #open_id #openid_button a {
+    cursor: pointer;
+    text-decoration: none; }
+    #open_id #openid_button a img {
+      border-style: none; }
+#open_id #openid_area input {
+  text-indent: 20px; }
+
+.menu_separator {
+  float: right;
+  margin-left: 5px;
+  margin-right: 5px;
+  position: relative;
+  top: 4px; }
+
+#login_popup {
+  padding: 0px;
+  height: 150px;
+  width: 500px; }
+
+#login_tabs {
+  position: relative;
+  top: 0px;
+  padding: 0px;
+  margin: 0px;
+  height: 20px;
+  border-bottom: 1px solid #777; }
+  #login_tabs .left {
+    border-top-left-radius: 5px; }
+  #login_tabs .center a {
+    border-left: 1px solid #777;
+    border-right: 1px solid #777; }
+  #login_tabs .right {
+    border-top-right-radius: 5px; }
+  #login_tabs .tab {
+    float: left;
+    width: 33.33%;
+    height: 100%;
+    text-align: center; }
+  #login_tabs li {
+    list-style-type: none; }
+    #login_tabs li a {
+      display: block;
+      height: 20px;
+      text-decoration: none;
+      color: black;
+      outline: none;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 18px; }
+    #login_tabs li a.active {
+      background-color: #aaa; }
+
+#login_tab {
+  padding: 20px; }
+  #login_tab #password, #login_tab #password_temp, #login_tab #email, #login_tab #openid_url {
+    width: 200px;
+    margin-bottom: 2px; }
+  #login_tab #logo_remember {
+    float: left;
+    margin-right: 10px; }
+
+#forgot_password_tab {
+  padding: 20px; }
+
+#sign_up_tab {
+  padding: 10px; }
