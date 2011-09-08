@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+# takes all strings from TranslateStrings
+# if it doesn't find such string in file config/locales/lang_server.yml 
+# then the string is considered as deprecated and has to be removed from everywhere
+
+RAILS_HOME = File.expand_path(File.join(File.dirname(__FILE__)+"/../.."))
+ENV['RAILS_ENV'] = case ARGV.first
+  when "p"; "production"
+  when "d"; "development"
+  when "t"; "test"
+  else
+    ARGV.first || ENV['RAILS_ENV'] || 'development'
+end
+
+require RAILS_HOME + '/config/boot.rb'
+require RAILS_HOME + '/config/environment'
+require RAILS_HOME + '/libhelp/translation'
+
+Translation::RemoveDeprecatedStrings.run

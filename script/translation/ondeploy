@@ -20,13 +20,16 @@ require RAILS_HOME + '/libhelp/translation'
 # 1. update db with new languages
 puts "Update db with new languages"
 Translation::UpdateDb.run
-# 2. update corrected english strings in TranslateString
+# 2. remove deprecated strings from db
+puts "Remove deprecated strings from db"
+Translation::RemoveDeprecatedStrings.run
+# 3. update corrected english strings in TranslateString
 puts "Update corrected english strings"
 Translation::UpdateEnglishStrings.run
-# 3. create yml files
+# 4. create yml files
 puts "Create yml language files"
 Translation::GenerateYml.run
-# 4. create js files
+# 5. create js files
 puts "Create js language files"
 langs = Translation::Language.get_website_languages
 Translation::GenerateJs.run(langs)
