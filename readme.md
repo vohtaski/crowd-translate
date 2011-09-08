@@ -3,7 +3,7 @@ Crowd translation
 This is to add collaborative language translation functionality to your site!
 If you use several languages, you can ask your users to help you to translate
 your web application into other languages. This service helps you to manage the
-process. Read more at this blog: http://vohtaski.blogspot.com
+process. Read more and see screenshots at [this blog](http://vohtaski.blogspot.com/2011/09/crowd-collaborative-translation-rails.html).
 
 How to integrate
 ===============
