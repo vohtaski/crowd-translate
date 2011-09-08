@@ -7,7 +7,7 @@ process. Read more at this blog: http://vohtaski.blogspot.com
 
 How to integrate
 ===============
-It works with Rails 2.3.9. Was not tested with Rails 3.0
+It works with Rails 2.3.9 and above. Was not tested with Rails 3.0
 
 General
 -------
