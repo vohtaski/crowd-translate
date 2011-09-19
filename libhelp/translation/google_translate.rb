@@ -34,7 +34,8 @@ module Translation
           puts lang+": to translate: "+str_to_translate
           puts lang+": translated: "+str_translated
           # update translation
-          tr.content = str_translated
+          # replace buggy %_{ to _%{ and {Item} to item
+          tr.content = str_translated.gsub("% {"," %{").gsub(/\{(\w+)\}/) {|s| "{"+$1.downcase+"}"}
           tr.save
         end
       end
