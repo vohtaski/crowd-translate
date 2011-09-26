@@ -17,20 +17,22 @@ module Translation
       source = "#{RAILS_HOME}/config/locales/"
       dest = "#{RAILS_HOME}/public/javascripts/langs/"
       template = "#{RAILS_HOME}/config/locales/templates/lang_client.yml"
+      var_prefix = "var LocalizedStrings"
       GenerateJs.create_files(source,dest,template,langs)
       
       # node-server files generation
       source = "#{RAILS_HOME}/config/locales/"
       dest = source # files for node are saved together with rails files
       template = "#{RAILS_HOME}/config/locales/templates/lang_server.yml"
-      GenerateJs.create_files(source,dest,template,langs)
-      
+      var_prefix = "module.exports"
+      GenerateJs.create_files(var_prefix,source,dest,template,langs)    
     end
     
     # Takes language files from source
     # filters out the strings not present in template
     # generate the resulting js output in dest folder
-    def self.create_files(source,dest,template,langs)
+    # var_prefix is a variable to which language data will be assigned
+    def self.create_files(var_prefix,source,dest,template,langs)
       js_file = File.expand_path(template)
       js_yml = File.exist?(js_file) ? YAML.load_file(js_file)['en'] : {}
 
@@ -42,7 +44,7 @@ module Translation
         file = File.expand_path(dest+"#{lang.first}.js")
         f = File.open(file, "w")
 
-        f.puts "var LocalizedStrings = {"
+        f.puts var_prefix+" = {"
 
         js_yml.each_pair do |prefix, lines|
           # prefix = "words", lines = {"english"=>"English", "russian"=>"Russian"}
