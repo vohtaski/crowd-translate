@@ -18,7 +18,7 @@ module Translation
       dest = "#{RAILS_HOME}/public/javascripts/langs/"
       template = "#{RAILS_HOME}/config/locales/templates/lang_client.yml"
       var_prefix = "var LocalizedStrings"
-      GenerateJs.create_files(source,dest,template,langs)
+      GenerateJs.create_files(var_prefix,source,dest,template,langs)
       
       # node-server files generation
       source = "#{RAILS_HOME}/config/locales/"
